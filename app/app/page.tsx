@@ -1,54 +1,50 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Carta as CartaType } from './types';
-import { generaMazzo } from './deck';
-import { Giocatore } from './components/Giocatore';
+import { useState } from 'react';
+import { GameCard } from './components/GameCard';
+import { GiochiContainer } from './giochi/GiochiContainer';
+
+type Gioco = 'menu' | 'gioco1' | 'gioco2';
 
 export default function AppPage() {
-  const [mazzoChiuso1, setMazzoChiuso1] = useState<CartaType[]>([]);
-  const [mazzoAperto1, setMazzoAperto1] = useState<CartaType[]>([]);
-  
-  const [mazzoChiuso2, setMazzoChiuso2] = useState<CartaType[]>([]);
-  const [mazzoAperto2, setMazzoAperto2] = useState<CartaType[]>([]);
+  const [giocoAttivo, setGiocoAttivo] = useState<Gioco>('menu');
 
-  useEffect(() => {
-    setMazzoChiuso1(generaMazzo());
-    setMazzoChiuso2(generaMazzo());
-  }, []);
-
-  const gioca1 = () => {
-    if (mazzoChiuso1.length === 0) return;
-    
-    const carta = { ...mazzoChiuso1[0], flipped: false };
-    setMazzoChiuso1(mazzoChiuso1.slice(1));
-    setMazzoAperto1([carta, ...mazzoAperto1]);
-  };
-
-  const gioca2 = () => {
-    if (mazzoChiuso2.length === 0) return;
-    
-    const carta = { ...mazzoChiuso2[0], flipped: false };
-    setMazzoChiuso2(mazzoChiuso2.slice(1));
-    setMazzoAperto2([carta, ...mazzoAperto2]);
-  };
+  if (giocoAttivo !== 'menu') {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-green-800 to-green-900 p-8">
+        <button
+          onClick={() => setGiocoAttivo('menu')}
+          className="mb-6 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors"
+        >
+          ← Indietro
+        </button>
+        <div className="max-w-2xl mx-auto">
+          <GiochiContainer gioco={giocoAttivo as 'gioco1' | 'gioco2'} />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-800 to-green-900 p-8">
-      <div className="max-w-2xl mx-auto space-y-8">
-        <Giocatore
-          nome="Giocatore 1"
-          mazzoChiuso={mazzoChiuso1}
-          mazzoAperto={mazzoAperto1}
-          onGioca={gioca1}
-        />
+    <div className="min-h-screen bg-gradient-to-b from-blue-800 to-blue-900 p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-white mb-2">🂠 Carte Napoletane 🂠</h1>
+          <p className="text-blue-200 text-lg">Scegli un gioco</p>
+        </div>
 
-        <Giocatore
-          nome="Giocatore 2"
-          mazzoChiuso={mazzoChiuso2}
-          mazzoAperto={mazzoAperto2}
-          onGioca={gioca2}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <GameCard
+            title="Gioco 1"
+            description="Scopri le carte e crea il tuo mazzo"
+            onClick={() => setGiocoAttivo('gioco1')}
+          />
+          <GameCard
+            title="Gioco 2"
+            description="Prossimamente..."
+            onClick={() => setGiocoAttivo('gioco2')}
+          />
+        </div>
       </div>
     </div>
   );
