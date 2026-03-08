@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Carta as CartaType } from '../types';
-import { generaMazzo } from '../deck';
-import { Giocatore } from '../components/Giocatore';
+import { Carta as CartaType } from '../../types';
+import { generaMazzo } from '../../deck';
+import { Giocatore } from '../../components/Giocatore';
 
-export function Gioco1() {
+export default function Gioco1Page() {
   const [mazzoChiuso1, setMazzoChiuso1] = useState<CartaType[]>([]);
   const [mazzoAperto1, setMazzoAperto1] = useState<CartaType[]>([]);
   
