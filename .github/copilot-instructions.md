@@ -29,7 +29,7 @@ This is a **Next.js 16** application using the **App Router** with TypeScript, T
 ### Styling
 - **Tailwind CSS first** for all styling (see `page.tsx` for utility examples)
 - Global styles in `app/globals.css`
-- Dark mode support built-in (use `dark:` prefix for dark mode variants)
+- Use variables in `app/globals.css`
 - Font variables injected via `next/font/google` (see `layout.tsx`)
 
 ### TypeScript Configuration

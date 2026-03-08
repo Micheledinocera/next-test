@@ -38,7 +38,7 @@ export default function AppLayout({
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <header className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
+      <header className="border-b border-border bg-background">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/app" className="text-2xl font-bold">
             App
@@ -47,7 +47,7 @@ export default function AppLayout({
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+            className="p-2 rounded-lg border border-border bg-background text-primary cursor-pointer hover:bg-primary-foreground transition-colors"
             aria-label="Toggle theme"
           >
             {theme === 'light' ? (
@@ -73,8 +73,8 @@ export default function AppLayout({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
-        <div className="max-w-7xl mx-auto px-6 py-6 text-center text-gray-600 dark:text-gray-400">
+      <footer className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-6 py-6 text-center text-muted">
           <p>&copy; 2026 App. Tutti i diritti riservati.</p>
         </div>
       </footer>

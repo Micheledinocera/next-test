@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Base */
+    --background: #ffffff;
+    --foreground: #0f172a; /* Uno slate molto scuro invece del nero puro */
+
+    /* Cards & Popups */
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+
+    /* Action colors */
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #f1f5f9;
+    --secondary-foreground: #1e293b;
+
+    /* Text variants (Muted/Accents) */
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b; /* Per sottotitoli o testi meno importanti */
+    
+    --accent: #f1f5f9;
+    --accent-foreground: #0f172a;
+
+    /* UI Elements */
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #3b82f6;
+  }
+
+  .dark {
+    /* Base */
+    --background: #020617; /* Slate 950 */
+    --foreground: #f8fafc;
+
+    /* Cards & Popups */
+    --card: #0f172a;
+    --card-foreground: #f8fafc;
+    --popover: #020617;
+    --popover-foreground: #f8fafc;
+
+    /* Action colors */
+    --primary: #60a5fa;
+    --primary-foreground: #082f49;
+    
+    --secondary: #1e293b;
+    --secondary-foreground: #f8fafc;
+
+    /* Text variants */
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
+
+    /* UI Elements */
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #1d4ed8;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  /* Mapping dei colori */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Font */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 }

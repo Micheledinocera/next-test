@@ -7,12 +7,12 @@ export default function Landing() {
         <h1 className="text-5xl font-bold tracking-tight">
           Benvenuto
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400">
+        <p className="text-xl text-foreground">
           Accedi all'app per continuare
         </p>
         <Link
           href="/app"
-          className="inline-block px-8 py-3 bg-black text-white dark:bg-white dark:text-black rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          className="inline-block px-8 py-3 bg-background text-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
         >
           Accedi all'App
         </Link>
