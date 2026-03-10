@@ -1,9 +1,14 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === 'production';
+const repoName = 'next-test'
+
 const nextConfig: NextConfig = {
-  output: 'export', // Obbligatorio per GitHub Pages
+  output: 'export', 
+  basePath: isProd ? `/${repoName}` : '',
+  assetPrefix: isProd ? `/${repoName}/` : '',
   images: {
-    unoptimized: true, // Necessario se usi l'esportazione statica
+    unoptimized: true,
   },
 };
 
