@@ -1,6 +1,6 @@
 'use client';
 
-import { Carta as CartaType } from '../types';
+import { Carta as CartaType } from '@/app/types';
 import { Carta } from './Carta';
 
 interface MazzoVisivoProps {

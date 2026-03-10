@@ -1,53 +1,56 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Carta as CartaType } from '../../types';
-import { generaMazzo } from '../../deck';
-import { Giocatore } from '../../components/Giocatore';
+import { useEffect, useState } from 'react';
+import { Giocatore } from '@/app/components/Giocatore';
+import useGameStore, { selectIsGameOver } from '@/app/store/useGameStore';
 
 export default function Gioco1Page() {
-  const [mazzoChiuso1, setMazzoChiuso1] = useState<CartaType[]>([]);
-  const [mazzoAperto1, setMazzoAperto1] = useState<CartaType[]>([]);
-  
-  const [mazzoChiuso2, setMazzoChiuso2] = useState<CartaType[]>([]);
-  const [mazzoAperto2, setMazzoAperto2] = useState<CartaType[]>([]);
+  const gameStore = useGameStore();
+  const isGameOver = useGameStore(selectIsGameOver);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
-    setMazzoChiuso1(generaMazzo());
-    setMazzoChiuso2(generaMazzo());
+    gameStore.initDecks();
   }, []);
 
-  const gioca1 = () => {
-    if (mazzoChiuso1.length === 0) return;
-    
-    const carta = { ...mazzoChiuso1[0], flipped: false };
-    setMazzoChiuso1(mazzoChiuso1.slice(1));
-    setMazzoAperto1([carta, ...mazzoAperto1]);
-  };
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
 
-  const gioca2 = () => {
-    if (mazzoChiuso2.length === 0) return;
-    
-    const carta = { ...mazzoChiuso2[0], flipped: false };
-    setMazzoChiuso2(mazzoChiuso2.slice(1));
-    setMazzoAperto2([carta, ...mazzoAperto2]);
+    if (isPlaying && !isGameOver) {
+      interval = setInterval(() => {
+        gameStore.pescaPerTutti();
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying, isGameOver]);
+
+  const toggleGioco = () => {
+    if (isGameOver) return;
+    setIsPlaying(!isPlaying);
   };
 
   return (
     <div className="space-y-8">
-      <Giocatore
-        nome="Giocatore 1"
-        mazzoChiuso={mazzoChiuso1}
-        mazzoAperto={mazzoAperto1}
-        onGioca={gioca1}
-      />
 
-      <Giocatore
-        nome="Giocatore 2"
-        mazzoChiuso={mazzoChiuso2}
-        mazzoAperto={mazzoAperto2}
-        onGioca={gioca2}
-      />
+      {gameStore.playersDecks.map((deck, index) => (
+        <Giocatore
+          key={index} // Obbligatorio in React per le liste
+          nome={`Giocatore ${index + 1}`}
+          mazzoChiuso={deck.drawDeck}
+          mazzoAperto={deck.shownDeck}
+        />
+      ))}
+
+      <button
+        onClick={toggleGioco}
+        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+        disabled={isPlaying}
+      >
+        {isGameOver || isPlaying ? 'Mazzo Vuoto' : 'Gioca'}
+      </button>
     </div>
   );
 }

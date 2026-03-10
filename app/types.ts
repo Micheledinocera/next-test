@@ -8,11 +8,7 @@ export interface Carta {
   flipped: boolean;
 }
 
-export interface GameState {
-  mazzoGiocatore1: Carta[];
-  mazzoGiocatore2: Carta[];
-  cartaAttiva: {
-    giocatore1?: Carta;
-    giocatore2?: Carta;
-  };
+export interface PlayerDeck{
+  drawDeck: Carta[],
+  shownDeck: Carta[]
 }

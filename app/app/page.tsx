@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { GameCard } from './components/GameCard';
+import { GameCard } from '@/app/components/GameCard';
 
 export default function AppPage() {
   return (

@@ -1,7 +1,7 @@
 'use client';
 
-import { Carta as CartaType } from '../types';
-import { SIMBOLI_SEME, COLORI_SEME } from '../deck';
+import { Carta as CartaType } from '@/app/types';
+import { SIMBOLI_SEME, COLORI_SEME } from '@/app/store/useGameStore';
 
 interface CartaProps {
   carta: CartaType;
