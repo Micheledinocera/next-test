@@ -1,68 +1,22 @@
 import { create } from "zustand";
-import { Carta, Seme, Valore, PlayerDeck } from "../types";
+import { Carta, PlayerDeck } from "@/app/types/cards";
+import { checkScore, generaMazzo } from '@/app/utils/cardUtils';
 
-export const SEMI: Seme[] = ['Ori', 'Coppe', 'Spade', 'Bastoni'];
-export const VALORI: Valore[] = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-
-export const SIMBOLI_SEME: Record<Seme, string> = {
-  Ori: '♦',
-  Coppe: '♥',
-  Spade: '♠',
-  Bastoni: '♣',
-};
-
-export const COLORI_SEME: Record<Seme, string> = {
-  Ori: 'text-yellow-600',
-  Coppe: 'text-red-600',
-  Spade: 'text-black',
-  Bastoni: 'text-green-700',
-};
-
-export function generaMazzo(): Carta[] {
-  const carte: Carta[] = [];
-  let id = 0;
-
-  for (const seme of SEMI) {
-    for (const valore of VALORI) {
-      carte.push({
-        id: `${seme}-${valore}-${id}`,
-        valore,
-        seme,
-        flipped: true, // Inizialmente coperta
-      });
-      id++;
-    }
-  }
-
-  // Mescola il mazzo
-  return mescolaMazzo(carte);
-}
-
-/**
- * Mescola il mazzo usando l'algoritmo Fisher-Yates
- */
-export function mescolaMazzo(carte: Carta[]): Carta[] {
-  const mescolate = [...carte];
-
-  for (let i = mescolate.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [mescolate[i], mescolate[j]] = [mescolate[j], mescolate[i]];
-  }
-
-  return mescolate;
-}
 
 export interface GameState {
   playersDecks: PlayerDeck[];
+  score: number[];
   initDecks: () => void;
   setDrawDeck: (playerIndex: 0 | 1, draw: Carta[]) => void;
   pescaCarta: (playerIndex: 0 | 1) => void;
   pescaPerTutti: () => void;
+  calcScore: () => void;
 }
 
 const useGameStore = create<GameState>()((set, get) => ({
   playersDecks: [{ drawDeck: [], shownDeck: [] }, { drawDeck: [], shownDeck: [] }],
-  initDecks: () => set((state) => ({
+  score: [0, 0],
+  initDecks: () => set(() => ({
     playersDecks: [
       { drawDeck: generaMazzo(), shownDeck: [] },
       { drawDeck: generaMazzo(), shownDeck: [] }
@@ -87,13 +41,12 @@ const useGameStore = create<GameState>()((set, get) => ({
 
         nuoviMazzi[playerIndex] = {
           drawDeck: restanteDrawDeck,
-          shownDeck: [primaCarta, ...mazzoTarget.shownDeck], // Aggiunge in cima alla pila delle mostrate
+          shownDeck: [primaCarta, ...mazzoTarget.shownDeck],
         };
       }
 
       return { playersDecks: nuoviMazzi };
     }),
-
   pescaPerTutti: () =>
     set((state) => {
       const nuoviMazzi = state.playersDecks.map((mazzo) => {
@@ -108,6 +61,15 @@ const useGameStore = create<GameState>()((set, get) => ({
 
       return { playersDecks: nuoviMazzi };
     }),
+    calcScore:()=>set((state)=>{
+      let score1=0;
+      let score2=0;
+      state.playersDecks[0].shownDeck.forEach((card,cardIndex)=>{
+        if(checkScore(state.playersDecks[0].shownDeck[cardIndex],state.playersDecks[1].shownDeck[cardIndex])) score1++
+        else score2++
+      })
+      return{score:[score1,score2]}
+    })
 }))
 
 export const selectIsGameOver = (state: GameState) => {

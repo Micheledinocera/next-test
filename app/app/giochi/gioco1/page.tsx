@@ -20,11 +20,14 @@ export default function Gioco1Page() {
     if (isPlaying && !isGameOver) {
       interval = setInterval(() => {
         gameStore.pescaPerTutti();
+        gameStore.calcScore();
       }, 200);
     }
 
     return () => {
-      if (interval) clearInterval(interval);
+      if (interval)
+        clearInterval(interval);
+
     };
   }, [isPlaying, isGameOver]);
 
@@ -35,17 +38,19 @@ export default function Gioco1Page() {
 
   return (
     <div className="space-y-8">
-        <Giocatore
-          nome={`Giocatore 1`}
-          mazzoChiuso={gameStore.playersDecks[0].drawDeck}
-        />
+      <Giocatore
+        nome={`Giocatore 1`}
+        mazzoChiuso={gameStore.playersDecks[0].drawDeck}
+        index={0}
+      />
 
-        <Playmat />
+      <Playmat />
 
-        <Giocatore
-          nome={`Giocatore 2`}
-          mazzoChiuso={gameStore.playersDecks[1].drawDeck}
-        />
+      <Giocatore
+        nome={`Giocatore 2`}
+        mazzoChiuso={gameStore.playersDecks[1].drawDeck}
+        index={1}
+      />
 
       <button
         onClick={toggleGioco}

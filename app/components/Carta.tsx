@@ -1,20 +1,22 @@
 'use client';
 
-import { Carta as CartaType } from '@/app/types';
-import { SIMBOLI_SEME, COLORI_SEME } from '@/app/store/useGameStore';
+import { Carta as CartaType } from '@/app/types/cards';
+import { SIMBOLI_SEME, COLORI_SEME } from '@/app/utils/cardUtils';
 
 interface CartaProps {
   carta: CartaType;
   isFlipped: boolean;
+  isSelected?:boolean;
 }
 
-export function Carta({ carta, isFlipped }: CartaProps) {
+export function Carta({ carta, isFlipped,isSelected }: CartaProps) {
   const simbolo = SIMBOLI_SEME[carta.seme];
   const colore = COLORI_SEME[carta.seme];
 
+  const borderClass='w-24 h-32 relative transition-transform duration-500 '+(isSelected?'border-green':'')
   return (
     <div
-      className="w-24 h-32 relative transition-transform duration-500"
+      className='w-24 h-32 relative transition-transform duration-500'
       style={{
         transformStyle: 'preserve-3d',
         transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -22,7 +24,7 @@ export function Carta({ carta, isFlipped }: CartaProps) {
     >
       {/* Fronte */}
       <div
-        className="absolute w-full h-full bg-white border-2 border-gray-800 rounded-lg shadow-lg flex flex-col items-center justify-center"
+        className={"absolute w-full h-full bg-white border-2 rounded-lg shadow-lg flex items-center justify-center "+(isSelected?'border-green-500':'border-gray-800')}
         style={{ backfaceVisibility: 'hidden' }}
       >
         <div className={`text-2xl font-bold ${colore}`}>{carta.valore}</div>

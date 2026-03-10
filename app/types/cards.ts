@@ -1,5 +1,5 @@
 export type Seme = 'Ori' | 'Coppe' | 'Spade' | 'Bastoni';
-export type Valore = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K';
+export type Valore = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | 'F' | 'C' | 'R';
 
 export interface Carta {
   id: string;
