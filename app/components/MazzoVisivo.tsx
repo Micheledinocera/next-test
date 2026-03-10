@@ -24,7 +24,7 @@ export function MazzoVisivo({ carte, label }: MazzoVisivoProps) {
               zIndex: i,
             }}
           >
-            <Carta carta={carta} isFlipped={i !== carte.slice(0, 3).length - 1} />
+            <Carta carta={carta} isFlipped={true} />
           </div>
         ))}
       </div>

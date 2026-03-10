@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Giocatore } from '@/app/components/Giocatore';
 import useGameStore, { selectIsGameOver } from '@/app/store/useGameStore';
+import Playmat from './Playmat';
 
 export default function Gioco1Page() {
   const gameStore = useGameStore();
@@ -19,7 +20,7 @@ export default function Gioco1Page() {
     if (isPlaying && !isGameOver) {
       interval = setInterval(() => {
         gameStore.pescaPerTutti();
-      }, 1000);
+      }, 200);
     }
 
     return () => {
@@ -34,15 +35,17 @@ export default function Gioco1Page() {
 
   return (
     <div className="space-y-8">
-
-      {gameStore.playersDecks.map((deck, index) => (
         <Giocatore
-          key={index} // Obbligatorio in React per le liste
-          nome={`Giocatore ${index + 1}`}
-          mazzoChiuso={deck.drawDeck}
-          mazzoAperto={deck.shownDeck}
+          nome={`Giocatore 1`}
+          mazzoChiuso={gameStore.playersDecks[0].drawDeck}
         />
-      ))}
+
+        <Playmat />
+
+        <Giocatore
+          nome={`Giocatore 2`}
+          mazzoChiuso={gameStore.playersDecks[1].drawDeck}
+        />
 
       <button
         onClick={toggleGioco}
