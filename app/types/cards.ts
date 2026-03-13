@@ -1,6 +1,11 @@
 export type Seme = 'Ori' | 'Coppe' | 'Spade' | 'Bastoni';
-export type Valore = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | 'F' | 'C' | 'R';
+export type CardSymbol = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | 'F' | 'C' | 'R';
 
+export interface Valore {
+  symbol: CardSymbol;
+  value31: number,
+  value7: number
+}
 export interface Carta {
   id: string;
   valore: Valore;
@@ -8,7 +13,7 @@ export interface Carta {
   flipped: boolean;
 }
 
-export interface PlayerDeck{
+export interface PlayerDeck {
   drawDeck: Carta[],
   shownDeck: Carta[]
 }

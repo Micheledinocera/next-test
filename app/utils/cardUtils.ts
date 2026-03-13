@@ -1,7 +1,18 @@
-import { Carta, Seme, Valore } from "@/app/types/cards";
+import { CardSymbol, Carta, Seme, Valore } from "@/app/types/cards";
 
 export const SEMI: Seme[] = ['Ori', 'Coppe', 'Spade', 'Bastoni'];
-export const VALORI: Valore[] = ['A', '2', '3', '4', '5', '6', '7', 'F', 'C', 'R'];
+export const VALORI: Valore[] = [
+    { symbol: 'A', value31: 11, value7: 1 },
+    { symbol: '2', value31: 2, value7: 2 },
+    { symbol: '3', value31: 3, value7: 3 },
+    { symbol: '4', value31: 4, value7: 4 },
+    { symbol: '5', value31: 5, value7: 5 },
+    { symbol: '6', value31: 6, value7: 6 },
+    { symbol: '7', value31: 7, value7: 7 },
+    { symbol: 'F', value31: 10, value7: 0.5 },
+    { symbol: 'C', value31: 10, value7: 0.5 },
+    { symbol: 'R', value31: 10, value7: 0.5 }
+];
 
 export const SIMBOLI_SEME: Record<Seme, string> = {
     Ori: '♦',
@@ -51,11 +62,14 @@ export function mescolaMazzo(carte: Carta[]): Carta[] {
     return mescolate;
 }
 
-export const getPunteggioCarta = (valore: Valore): number => {
-    const mapping: Record<Valore, number> = {
-        'A': 11, 'F': 10, 'C': 10, 'R': 10, '7': 7, '6': 6, '5': 5, '4': 4, '3': 3, '2': 2
-    };
-    return mapping[valore] || 0;
+export const getPunteggioCarta = (symbol: CardSymbol,type:'value31'|'value7'='value31'): number => {
+    return VALORI.find(valore=>valore.symbol==symbol)![type];
+};
+
+export const getPunteggioSet = (set: Carta[]): number => {
+    let cardsBySeme=SEMI.map(seme=>set.filter(carta=>carta.seme==seme))
+    let scoreBySeme=cardsBySeme.map(cards=>cards.reduce((accumulator, currentValue) => accumulator + getPunteggioCarta(currentValue.valore.symbol),0))
+    return Math.max(...scoreBySeme);
 };
 
 export const checkSeme = (seme1: Seme, seme2: Seme): boolean => {
@@ -63,6 +77,10 @@ export const checkSeme = (seme1: Seme, seme2: Seme): boolean => {
 };
 
 export const checkScore = (carta1: Carta, carta2: Carta): boolean => {
-    if(getPunteggioCarta(carta2.valore) != getPunteggioCarta(carta1.valore)) return getPunteggioCarta(carta1.valore) > getPunteggioCarta(carta2.valore)
+    if (getPunteggioCarta(carta2.valore.symbol) != getPunteggioCarta(carta1.valore.symbol)) return getPunteggioCarta(carta1.valore.symbol) > getPunteggioCarta(carta2.valore.symbol)
     return checkSeme(carta1.seme, carta2.seme)
-}
+};
+
+export const checkScoreSet = (set1: Carta[], set2: Carta[]): boolean => {
+    return getPunteggioSet(set1) > getPunteggioSet(set2)
+};

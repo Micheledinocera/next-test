@@ -13,7 +13,6 @@ export function Carta({ carta, isFlipped,isSelected }: CartaProps) {
   const simbolo = SIMBOLI_SEME[carta.seme];
   const colore = COLORI_SEME[carta.seme];
 
-  const borderClass='w-24 h-32 relative transition-transform duration-500 '+(isSelected?'border-green':'')
   return (
     <div
       className='w-24 h-32 relative transition-transform duration-500'
@@ -27,7 +26,7 @@ export function Carta({ carta, isFlipped,isSelected }: CartaProps) {
         className={"absolute w-full h-full bg-white border-2 rounded-lg shadow-lg flex items-center justify-center "+(isSelected?'border-green-500':'border-gray-800')}
         style={{ backfaceVisibility: 'hidden' }}
       >
-        <div className={`text-2xl font-bold ${colore}`}>{carta.valore}</div>
+        <div className={`text-2xl font-bold ${colore}`}>{carta.valore.symbol}</div>
         <div className={`text-3xl ${colore}`}>{simbolo}</div>
       </div>
 

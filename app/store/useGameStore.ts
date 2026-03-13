@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { Carta, PlayerDeck } from "@/app/types/cards";
 import { checkScore, generaMazzo } from '@/app/utils/cardUtils';
 
-
 export interface GameState {
   playersDecks: PlayerDeck[];
   score: number[];
@@ -61,15 +60,15 @@ const useGameStore = create<GameState>()((set, get) => ({
 
       return { playersDecks: nuoviMazzi };
     }),
-    calcScore:()=>set((state)=>{
-      let score1=0;
-      let score2=0;
-      state.playersDecks[0].shownDeck.forEach((card,cardIndex)=>{
-        if(checkScore(state.playersDecks[0].shownDeck[cardIndex],state.playersDecks[1].shownDeck[cardIndex])) score1++
-        else score2++
-      })
-      return{score:[score1,score2]}
+  calcScore: () => set((state) => {
+    let score1 = 0;
+    let score2 = 0;
+    state.playersDecks[0].shownDeck.forEach((card, cardIndex) => {
+      if (checkScore(state.playersDecks[0].shownDeck[cardIndex], state.playersDecks[1].shownDeck[cardIndex])) score1++
+      else score2++
     })
+    return { score: [score1, score2] }
+  })
 }))
 
 export const selectIsGameOver = (state: GameState) => {
