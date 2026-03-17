@@ -9,7 +9,13 @@ interface MazzoVisivoProps {
 }
 
 export function MazzoVisivo({ carte, label }: MazzoVisivoProps) {
-  if (carte.length === 0) return null;
+  if (carte.length === 0) return (
+    <div className="relative w-24 h-32 border-2 border-white border-dashed">
+      <div className="flex flex-col items-center gap-2">
+        <div className="text-white text-sm font-semibold">Finito</div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex flex-col items-center gap-2">

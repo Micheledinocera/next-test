@@ -8,7 +8,7 @@ export interface GameState {
   initDecks: () => void;
   setDrawDeck: (playerIndex: 0 | 1, draw: Carta[]) => void;
   pescaCarta: (playerIndex: 0 | 1) => void;
-  pescaPerTutti: () => void;
+  pescaPerTutti: (cards?:number) => void;
   calcScore: () => void;
 }
 
@@ -46,15 +46,18 @@ const useGameStore = create<GameState>()((set, get) => ({
 
       return { playersDecks: nuoviMazzi };
     }),
-  pescaPerTutti: () =>
+  pescaPerTutti: (cards:number=1) =>
     set((state) => {
       const nuoviMazzi = state.playersDecks.map((mazzo) => {
         if (mazzo.drawDeck.length === 0) return mazzo;
 
-        const [primaCarta, ...restanteDrawDeck] = mazzo.drawDeck;
+        const x = 5; // Il numero di carte da pescare
+
+        const primaParte = mazzo.drawDeck.slice(0, cards);
+        const restanteDrawDeck = mazzo.drawDeck.slice(cards);
         return {
           drawDeck: restanteDrawDeck,
-          shownDeck: [primaCarta, ...mazzo.shownDeck],
+          shownDeck: [...primaParte, ...mazzo.shownDeck],
         };
       });
 

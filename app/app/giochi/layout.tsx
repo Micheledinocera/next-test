@@ -15,7 +15,7 @@ export default function GiochiLayout({
       >
         ← Indietro
       </Link>
-      <div className="max-w-2xl mx-auto">
+      <div className="mx-auto">
         {children}
       </div>
     </div>

@@ -1,5 +1,5 @@
 export type Seme = 'Ori' | 'Coppe' | 'Spade' | 'Bastoni';
-export type CardSymbol = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | 'F' | 'C' | 'R';
+export type CardSymbol = '0'|'A' | '2' | '3' | '4' | '5' | '6' | '7' | 'F' | 'C' | 'R';
 
 export interface Valore {
   symbol: CardSymbol;
